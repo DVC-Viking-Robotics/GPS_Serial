@@ -16,10 +16,10 @@ while (True):
         x = bytes(x).decode('utf-8')
         #ready to print or do whatever you want (like parsing a string)
         if (x.find('GPGLL') != -1):
-            N_start = x.find(',')
-            N_end = x.find(',', N_start + 1)
-            W_start = x.find('N,')
-            W_end = x.find(',', W_start + 1)
+            N_start = x.find(',') + 1
+            N_end = x.find(',', N_start)
+            W_start = x.find('N,') + 3
+            W_end = x.find(',', W_start)
             print('N', x[N_start:N_end], '; W', x[W_start:W_end])
     except KeyboardInterrupt:
         break
