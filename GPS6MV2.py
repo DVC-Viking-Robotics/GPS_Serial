@@ -15,7 +15,7 @@ while (True):
         # transform back into bytearray, then decode into string format
         x = bytes(x).decode('utf-8')
         #ready to print or do whatever you want (like parsing a string)
-        if (x.find('GPGLL') != -1)
+        if (x.find('GPGLL') != -1):
             print(x)
     except KeyboardInterrupt:
         break
