@@ -2,8 +2,8 @@ import serial
 
 # open a "channel" (technically I think its called a "handle") to Serial port
 # on Windows my arduino registers as "COM3"
-# on rasbian the Tx/Rx pins register as '/dev/ttys0'
-ser = serial.Serial('/dev/ttys0')
+# on rasbian the Tx/Rx pins register as '/dev/ttyS0'
+ser = serial.Serial('/dev/ttyS0')
 while (True):
     try:
         # read all data in stream until '\n'
