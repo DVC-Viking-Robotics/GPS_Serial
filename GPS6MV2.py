@@ -1,4 +1,5 @@
 import serial
+import time
 
 # open a "channel" (technically I think its called a "handle") to Serial port
 # on Windows my arduino registers as "COM3"
@@ -26,6 +27,7 @@ class GPS():
         W_end = x.find(',', W_start)
         self.north = self.line[N_start:N_end]
         self.west = self.line[W_start:W_end]
+        return (self.north, self.west)
 
     def __del__(self):
         del self.ser, self.north, self.west, self.line 
@@ -34,9 +36,8 @@ if __name__ == "__main__":
     gps = GPS()
     while (True):
         try:
-            gps.getCoords()
-            print('N', gps.north, '; W', gps.west)
+            coords = gps.getCoords()
+            print('N', coords[0], '; W', coords[1])
         except KeyboardInterrupt:
             del gps
             break
-
