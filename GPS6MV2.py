@@ -100,7 +100,7 @@ class GPS():
 
         return found
 
-    def getData(raw = False):
+    def getData(self, raw = False):
         found = False
         while(not found):
             self.line = self.ser.readline()
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     gps = GPS(False)
     while (True):
         try:
-            coords = gps.getData(raw = True)
+            coords = gps.getData(True)
             print('N', gps.NS, '; W', gps.EW)
         except KeyboardInterrupt:
             del gps
