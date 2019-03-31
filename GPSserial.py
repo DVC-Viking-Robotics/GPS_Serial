@@ -1,12 +1,15 @@
 import serial
 import time
 
-# open a "channel" (technically I think its called a "handle") to Serial port
-# on Windows my arduino registers as "COM3"
-# on rasbian the Tx/Rx pins register as '/dev/ttyS0'
-
 class GPS():
+    '''
+    GPS serial Output conforms to NMEA format
+    See the datasheet in this repo
+    '''
     def __init__(self, onRaspi = True):
+        # open a "channel" (technically I think its called a "handle") to Serial port
+        # on Windows my arduino (connected to GPS6MV2) registers as "COM3"
+        # on rasbian the Tx/Rx pins register as '/dev/ttyS0'
         if onRaspi:
             self.ser = serial.Serial('/dev/ttyS0')
         else:
@@ -125,7 +128,6 @@ class GPS():
         del self.ser, self.north, self.west, self.line 
 '''
 if __name__ == "__main__":
-    import time
     gps = GPS(False)
     while (True):
         try:
