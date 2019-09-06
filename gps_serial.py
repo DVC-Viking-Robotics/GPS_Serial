@@ -14,6 +14,7 @@ DEFAULT_LOC = {'lat': 37.96713657090229, 'lng': -122.0712176165581}
 def convert2deg(nmea):
     """VERY IMPORTANT needed to go from format 'ddmm.mmmm' into decimal degrees"""
     if nmea is None or len(nmea) < 3:
+        print('invalid data gathered!')
         return None
     nmea = float(nmea)
     return (nmea // 100) + (nmea - ((nmea // 100) * 100)) / 60
@@ -56,13 +57,12 @@ class GPS_SERIAL():
             found = True
             arr = str.rsplit(',')[1:]
             # print(repr(arr))
-            if len(arr[1]) > 1:
-                self.lat = convert2deg(arr[0])
-                if arr[1] != 'N' and arr[1] is not None:
-                    self.lat *= -1
-                self.lng = convert2deg(arr[2])
-                if arr[3] != 'E' and arr[3] is not None:
-                    self.lng *= -1.0
+            self.lat = convert2deg(arr[0])
+            if arr[1] != 'N' and arr[1] is not None:
+                self.lat *= -1
+            self.lng = convert2deg(arr[2])
+            if arr[3] != 'E' and arr[3] is not None:
+                self.lng *= -1.0
             typeState = {'A': 'data valid', 'V': 'Data not valid'}
             self.data_status = typeState[arr[5]]
         elif str.find('VTG') != -1:
