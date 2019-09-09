@@ -27,28 +27,81 @@ class GPS_SERIAL():
         self._dummy = False
         try:
             self._ser = serial.Serial(address, timeout=timeout)
-            self.timeOut = timeout
             self._line = self._ser.readline()  # discard any garbage artifacts
             self._gps_thread = None
             print('Successfully opened port', address, 'to GPS module')
         except serial.SerialException:
             self._dummy = True
             print('unable to open serial GPS module @ port', address)
-        self.lat = DEFAULT_LOC['lat']
-        self.lng = DEFAULT_LOC['lng']
-        self.utc = None
+        self._lat = DEFAULT_LOC['lat']
+        self._lng = DEFAULT_LOC['lng']
+        self._utc = None
         self._line = ""
-        self.speed = {"knots": 0.0, "kmph": 0.0}
-        self.course = {"true": 0.0, "mag": 0.0}
-        self.sat = {"connected": 0, "view": 0, "quality": "Fix Unavailable"}
-        self.altitude = 0.0
+        self._speed = {"knots": 0.0, "kmph": 0.0}
+        self._course = {"true": 0.0, "mag": 0.0}
+        self._sat = {"connected": 0, "view": 0, "quality": "Fix Unavailable"}
+        self._altitude = 0.0
         # self.azimuth = 0.0
         # self.elevation = 0.0
-        self.fix = "no Fix"
-        self.rx_status = "unknown"
-        self.pdop = 0.0
-        self.hdop = 0.0
-        self.vdop = 0.0
+        self._data_status = 'Data not valid'
+        self._fix = "no Fix"
+        self._rx_status = "unknown"
+        self._pdop = 0.0
+        self._hdop = 0.0
+        self._vdop = 0.0
+
+    @property
+    def lat(self):
+        return self._lat
+    @property
+    def lng(self):
+        return self._lng
+    @property
+    def utc(self):
+        return self._utc
+    @property
+    def speed_knots(self):
+        return self._speed['knots']
+    @property
+    def speed_kmph(self):
+        return self._speed['kmph']
+    @property
+    def sat_connected(self):
+        return self._sat['connected']
+    @property
+    def course_true(self):
+        return self._course['true']
+    @property
+    def course_mag(self):
+        return self._course['mag']
+    @property
+    def sat_view(self):
+        return self._sat['view']
+    @property
+    def sat_quality(self):
+        return self._sat['quality']
+    @property
+    def altitude(self):
+        return self._altitude
+    @property
+    def fix(self):
+        return self._fix
+    @property
+    def data_status(self):
+        return self._data_status
+    @property
+    def rx_status(self):
+        return self._rx_status
+    @property
+    def pdop(self):
+        return self._pdop
+    @property
+    def vdop(self):
+        return self._vdop
+    @property
+    def hdop(self):
+        return self._hdop
+    
 
     def _parse_line(self, str):
         found = False
@@ -56,48 +109,48 @@ class GPS_SERIAL():
             found = True
             arr = str.rsplit(',')[1:]
             # print(repr(arr))
-            self.lat = convert2deg(arr[0])
+            self._lat = convert2deg(arr[0])
             if arr[1] != 'N' and arr[1] is not None:
-                self.lat *= -1
-            self.lng = convert2deg(arr[2])
+                self._lat *= -1
+            self._lng = convert2deg(arr[2])
             if arr[3] != 'E' and arr[3] is not None:
-                self.lng *= -1.0
+                self._lng *= -1.0
             typeState = {'A': 'data valid', 'V': 'Data not valid'}
-            self.data_status = typeState[arr[5]]
+            self._data_status = typeState[arr[5]]
         elif str.find('VTG') != -1:
             arr = str.rsplit(',')[1:]
             if len(arr[0]) > 1:
-                self.course["true"] = float(arr[0])
+                self._course["true"] = float(arr[0])
             if len(arr[1]) > 1:
-                self.course["mag"] = float(arr[1])
+                self._course["mag"] = float(arr[1])
             if len(arr[2]) > 1:
-                self.speed["knots"] = float(arr[2])
+                self._speed["knots"] = float(arr[2])
             if len(arr[3]) > 1:
-                self.speed["kmph"] = float(arr[3])
+                self._speed["kmph"] = float(arr[3])
         elif str.find('GGA') != -1:
             typeState = [
                 "Fix Unavailable", "Valid Fix (SPS)", "Valid Fix (GPS)", "unknown1", "unknown2", "unknown3"]
             arr = str.rsplit(',')[1:]
-            self.sat["quality"] = typeState[int(arr[5])]
-            self.sat["view"] = int(arr[6])
+            self._sat["quality"] = typeState[int(arr[5])]
+            self._sat["view"] = int(arr[6])
             if len(arr[8]) > 1:
-                self.altitude = float(arr[8])
+                self._altitude = float(arr[8])
         elif str.find('GSA') != -1:
             arr = str.rsplit(',')[1:]
             typeFix = ["No Fix", "2D", "3D"]
-            self.fix = typeFix[int(arr[1]) - 1]
-            self.pdop = float(arr[14])
-            self.hdop = float(arr[15])
-            self.vdop = float(arr[16][:-3])
+            self._fix = typeFix[int(arr[1]) - 1]
+            self._pdop = float(arr[14])
+            self._hdop = float(arr[15])
+            self._vdop = float(arr[16][:-3])
         elif str.find('RMC') != -1:
             status = {"V": "Warning", "A": "Valid"}
             arr = str.rsplit(',')[1:]
-            self.rx_status = status[arr[1]]
+            self._rx_status = status[arr[1]]
             if len(arr[0]) > 1 and len(arr[8]) > 1:
-                self.utc = time.struct_time((2000+int(arr[8][4:6]), int(arr[8][2:4]), int(arr[8][0:2]), int(arr[0][0:2]), int(arr[0][2:4]), int(arr[0][4:6]), 0, 0, -1))
+                self._utc = time.struct_time((2000+int(arr[8][4:6]), int(arr[8][2:4]), int(arr[8][0:2]), int(arr[0][0:2]), int(arr[0][2:4]), int(arr[0][4:6]), 0, 0, -1))
         elif str.find('GSV') != -1:
             arr = str.rsplit(',')[1:]
-            self.sat['connected'] = arr[0]
+            self._sat['connected'] = arr[0]
             # ignoring data specific to individual satelites
             # self.elevation = int(arr[4])
             # self.azimuth = int(arr[5])
