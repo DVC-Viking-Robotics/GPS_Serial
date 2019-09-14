@@ -22,6 +22,7 @@ extensions = [
 # digitalio, micropython and busio. List the modules you use. Without it, the
 # autodoc module docs will fail to generate with a warning.
 # autodoc_mock_imports = ["digitalio", "busio"]
+autodoc_mock_imports = ["pyserial"]
 autodoc_member_order = 'bysource'
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3.4', None),'pySerial': ('http://pyserial.readthedocs.io/en/latest/', None)}

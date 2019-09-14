@@ -1,5 +1,5 @@
 """
-GPS_SERIAL
+GPSserial
 ================
 
 Yet another NMEA sentence parser for serial UART based GPS modules. This implements the threaded module for [psuedo] asynchronous applications. CAUTION: The individual satelite info is being ignored until we decide to support capturing it from the GPS module's output.
@@ -11,17 +11,17 @@ import serial
 # default location hard-coded to DVC Engineering buildings' courtyard
 DEFAULT_LOC = {'lat': 37.96713657090229, 'lng': -122.0712176165581}
 
-def convert2deg(nmea):
+def _convert2deg(nmea):
     """VERY IMPORTANT needed to go from format 'ddmm.mmmm' into decimal degrees"""
     if nmea is None or len(nmea) < 3:
         return None
     nmea = float(nmea)
     return (nmea // 100) + (nmea - ((nmea // 100) * 100)) / 60
 
-class GPS_SERIAL():
+class GPSserial:
     """
-    :param int address: The serial port address that the GPS module is connected to. For example, on the raspberry pi's GPIO pins, this is '/dev/ttyS0'; on windows, this is something like 'com#' where # is designated by windows.
-    :param int timeout: Specific number of seconds till the threaded readline() operation expires. Defaults to 1 second.
+    :param int address: The serial port address that the GPS module is connected to. For example, on the raspberry pi's GPIO pins, this is ``/dev/ttyS0``; on windows, this is something like ``com#`` where # is designated by windows.
+    :param int timeout: Specific number of seconds till the threaded :class:`~serial.Serial`'s ``readline()`` operation expires. Defaults to 1 second.
     """
     def __init__(self, address, timeout=1.0):
         self._dummy = False
@@ -126,10 +126,10 @@ class GPS_SERIAL():
             arr = string.rsplit(',')[1:]
             # it would probably be helpful to other location-based APIs to have the
             # corrdinates also saved in the original 'DDMM.SS [cardinal direction]'
-            self._lat = convert2deg(arr[0])
+            self._lat = _convert2deg(arr[0])
             if arr[1] != 'N' and arr[1] is not None:
                 self._lat *= -1
-            self._lng = convert2deg(arr[2])
+            self._lng = _convert2deg(arr[2])
             if arr[3] != 'E' and arr[3] is not None:
                 self._lng *= -1.0
             type_state = {'A': 'data valid', 'V': 'Data not valid'}

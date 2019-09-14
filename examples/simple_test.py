@@ -2,10 +2,10 @@
 A simple test of the GPS-Serial library that automatically invokes the threaded module.
 """
 import time
-from gps_serial import GPS_SERIAL
+from gps_serial import GPSserial
 
 # you may want to adjust the port address that is passed to the constructor accordingly.
-GPS = GPS_SERIAL('/dev/ttyS0')
+GPS = GPSserial('/dev/ttyS0')
 while True:
     try:
         GPS.get_data() # pass `1` or `true` to print raw data from module
