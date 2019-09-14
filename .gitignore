@@ -1,2 +1,10 @@
-__pycache__/gps_serial.cpython-37.pyc
+__pycache__
+_build
+*.pyc
+.env
+build*
+*.DS_Store
+.eggs
+dist
+**/*.egg-info
 .vscode/settings.json
