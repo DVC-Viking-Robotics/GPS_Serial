@@ -1,6 +1,6 @@
 
 .. image:: https://gps-serial.readthedocs.io/en/latest/?badge=latest
-    :target: http://gps-serial.rtfd.io/
+    :target: https://gps-serial.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
 GPS Serial Library
