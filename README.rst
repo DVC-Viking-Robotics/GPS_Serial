@@ -1,3 +1,8 @@
+
+.. image:: https://gps-serial.readthedocs.io/en/latest/?badge=latest
+    :target: http://gps-serial.rtfd.io/
+    :alt: Documentation Status
+
 GPS Serial Library
 ==================
 
