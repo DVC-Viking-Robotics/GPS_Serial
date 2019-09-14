@@ -52,54 +52,71 @@ class GPS_SERIAL():
 
     @property
     def lat(self):
+        """This attribute holds the latitude coordinate that was most recently parsed from the GPS module's data output."""
         return self._lat
     @property
     def lng(self):
+        """This attribute holds the longitude coordinate that was most recently parsed from the GPS module's data output."""
         return self._lng
     @property
     def utc(self):
+        """This attribute holds a tuple of time & date data that was most recently parsed from the GPS module's data output. This tuple conforms with python's time module functions."""
         return self._utc
     @property
     def speed_knots(self):
+        """This attribute holds the speed (in nautical knots) that was most recently parsed from the GPS module's data output."""
         return self._speed['knots']
     @property
     def speed_kmph(self):
+        """This attribute holds the speed (in kilometers per hour) that was most recently parsed from the GPS module's data output."""
         return self._speed['kmph']
     @property
     def sat_connected(self):
+        """This attribute holds the number of connected GPS satelites that was most recently parsed from the GPS module's data output."""
         return self._sat['connected']
     @property
-    def course_true(self):
-        return self._course['true']
-    @property
-    def course_mag(self):
-        return self._course['mag']
-    @property
     def sat_view(self):
+        """This attribute holds the number of GPS satelites in the module's view that was most recently parsed from the GPS module's data output."""
         return self._sat['view']
     @property
     def sat_quality(self):
+        """This attribute holds the description of the GPS satelites' quality that was most recently parsed from the GPS module's data output."""
         return self._sat['quality']
     @property
+    def course_true(self):
+        """This attribute holds the course direction (in terms of "true north") that was most recently parsed from the GPS module's data output."""
+        return self._course['true']
+    @property
+    def course_mag(self):
+        """This attribute holds the course direction (in terms of "magnetic north") that was most recently parsed from the GPS module's data output."""
+        return self._course['mag']
+    @property
     def altitude(self):
+        """This attribute holds the GPS antenna's altitude that was most recently parsed from the GPS module's data output."""
         return self._altitude
     @property
     def fix(self):
+        """This attribute holds the description of GPS module's fix quality that was most recently parsed from the GPS module's data output."""
         return self._fix
     @property
     def data_status(self):
+        """This attribute holds the GPS module's data authenticity that was most recently parsed from the GPS module's data output."""
         return self._data_status
     @property
     def rx_status(self):
+        """This attribute holds the GPS module's receiving status that was most recently parsed from the GPS module's data output."""
         return self._rx_status
     @property
     def pdop(self):
+        """This attribute holds the GPS module's positional dilution of percision that was most recently parsed from the GPS module's data output."""
         return self._pdop
     @property
     def vdop(self):
+        """This attribute holds the GPS module's vertical dilution of percision that was most recently parsed from the GPS module's data output."""
         return self._vdop
     @property
     def hdop(self):
+        """This attribute holds the GPS module's horizontal dilution of percision that was most recently parsed from the GPS module's data output."""
         return self._hdop
 
     def _parse_line(self, string):
@@ -107,7 +124,8 @@ class GPS_SERIAL():
         if string.find('GLL') != -1:
             found = True
             arr = string.rsplit(',')[1:]
-            # print(repr(arr))
+            # it would probably be helpful to other location-based APIs to have the
+            # corrdinates also saved in the original 'DDMM.SS [cardinal direction]'
             self._lat = convert2deg(arr[0])
             if arr[1] != 'N' and arr[1] is not None:
                 self._lat *= -1

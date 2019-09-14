@@ -8,7 +8,7 @@ from gps_serial import GPS_SERIAL
 GPS = GPS_SERIAL('/dev/ttyS0')
 while True:
     try:
-        GPS.getData() # pass `1` or `true` to print raw data from module
+        GPS.get_data() # pass `1` or `true` to print raw data from module
         if GPS.rx_status.startswith('Valid'):
             print('RxStatus:', GPS.rx_status, 'FixType:', GPS.fix)
             print('satelites\' quality:', GPS.sat_quality)
