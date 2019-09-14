@@ -1,5 +1,5 @@
 
-.. image:: https://gps-serial.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/gps-serial/badge/?version=latest
     :target: https://gps-serial.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
