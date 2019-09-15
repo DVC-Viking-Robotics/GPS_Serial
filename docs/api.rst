@@ -4,5 +4,8 @@
 .. If your library file(s) are nested in a directory (e.g. /adafruit_foo/foo.py)
 .. use this format as the module name: "adafruit_foo.foo"
 
+API Documentation
+==================
+
 .. automodule:: gps_serial
     :members:
