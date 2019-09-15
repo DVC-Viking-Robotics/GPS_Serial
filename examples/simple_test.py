@@ -1,5 +1,5 @@
 """
-A simple test of the GPS-Serial library that automatically invokes the threaded module.
+A simple test of the GPS-Serial library that automatically invokes the threading module.
 """
 import time
 from gps_serial import GPSserial

@@ -15,16 +15,26 @@ This library requires the `py-serial library <https://pypi.org/project/pyserial/
 Installation
 ============
 
-Currenty, there is no plan to deploy this single module library to pypi.
-Instead, make sure the `py-serial library <https://pypi.org/project/pyserial/>`_ is install via:
+Currenty, there is no plan to deploy this single module library to pypi. but you can easily install this library using the following commands:
+
+.. code-block:: shell
+
+    git clone https://github.com/DVC-Viking-Robotics/GPS_Serial.git
+    cd GPS_Serial
+    python3 setup.py install
+
+The previous commands should automatically install the `py-serial library <https://pypi.org/project/pyserial/>`_. However, if you get import errors related to the ``serial`` module, make sure the `py-serial library <https://pypi.org/project/pyserial/>`_ is install via:
 
 .. code-block:: shell
 
     pip3 install pyserial
 
-Some cases may require the command be prefixed with ``sudo `` or appended with `` --user``.
+Some cases may require the commands beginning with ``python3`` or ``pip3`` be prefixed with ``sudo ``.
 
-Additionally, if you're going to use the GPIO pins, ``RX`` and ``TX``, you must ensure that the ``serial`` interface is enabled by running:
+What Is My Serial Device's Port Address?
+========================================
+
+If you're going to use the GPIO pins, ``RX`` and ``TX``, you must ensure that the ``serial`` interface is enabled by running:
 
 .. code-block:: shell
 
