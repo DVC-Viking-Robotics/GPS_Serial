@@ -3,7 +3,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
-
+sys.path.append(os.path.abspath('..'))
 # -- General configuration ------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -144,7 +144,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'GPS Serial Library.tex', u'GPS Serial Library Documentation',
+    (master_doc, 'GPSSerialLibrary.tex', u'GPS Serial Library Documentation',
      author, 'manual'),
 ]
 
@@ -153,7 +153,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'GPS Serial library', u'GPS Serial Library Documentation',
+    (master_doc, 'GPSSeriallibrary', u'GPS Serial Library Documentation',
      [author], 1)
 ]
 
@@ -163,7 +163,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'GPS Serial Library', u' GPS Serial Library Documentation',
-     author, 'GPS Serial Library', 'GPS Serial on CircuitPython devices.',
+    (master_doc, 'GPSSerialLibrary', u' GPS Serial Library Documentation',
+     author, 'GPS Serial Library', 'GPS Serial on the Raspberry Pi.',
      'Wireless'),
 ]
