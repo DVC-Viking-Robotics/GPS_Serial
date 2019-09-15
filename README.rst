@@ -29,7 +29,7 @@ The previous commands should automatically install the `py-serial library <https
 
     pip3 install pyserial
 
-Some cases may require the commands beginning with ``python3`` or ``pip3`` be prefixed with ``sudo ``.
+Some cases may require the commands beginning with ``python3`` or ``pip3`` be prefixed with ``sudo``.
 
 What Is My Serial Device's Port Address?
 ========================================
