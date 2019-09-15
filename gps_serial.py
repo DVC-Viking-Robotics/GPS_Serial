@@ -25,7 +25,7 @@
 gps_serial
 ========================================
 
-Yet another NMEA sentence parser for serial UART based GPS modules. This implements the threaded module for [psuedo] asynchronous applications. CAUTION: The individual satelite info is being ignored until we decide to support capturing it from the GPS module's output.
+Yet another NMEA sentence parser for serial UART based GPS modules. This implements the threading module for [psuedo] asynchronous applications. CAUTION: The individual satelite info is being ignored until we decide to support capturing it from the GPS module's output.
 """
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/DVC-Viking-Robotics/GPS_Serial.git"
@@ -46,7 +46,7 @@ def _convert2deg(nmea):
 class GPSserial:
     """
     :param int address: The serial port address that the GPS module is connected to. For example, on the raspberry pi's GPIO pins, this is ``/dev/ttyS0``; on windows, this is something like ``com#`` where # is designated by windows.
-    :param int timeout: Specific number of seconds till the threaded :class:`~serial.Serial`'s ``readline()`` operation expires. Defaults to 1 second.
+    :param int timeout: Specific number of seconds till the threading :class:`~serial.Serial`'s ``readline()`` operation expires. Defaults to 1 second.
     """
     def __init__(self, address, timeout=1.0):
         self._dummy = False
