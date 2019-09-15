@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 """
 ========================================
-gps_serial.GPSserial
+gps_serial
 ========================================
 
 Yet another NMEA sentence parser for serial UART based GPS modules. This implements the threaded module for [psuedo] asynchronous applications. CAUTION: The individual satelite info is being ignored until we decide to support capturing it from the GPS module's output.

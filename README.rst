@@ -3,8 +3,8 @@
     :target: https://gps-serial.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-GPS Serial Library
-==================
+Introduction
+============
 
 Yet another GPS NMEA sentence parser, but this time with the threaded module for expediting data parsing in background running threads. This was developed for & tested on the Raspberry PI.
 
@@ -14,7 +14,7 @@ Dependencies
 This library requires the `py-serial library <https://pypi.org/project/pyserial/>`_
 
 Installation
-==============
+============
 
 Currenty, there is no plan to deploy this single module library to pypi.
 Instead, make sure the `py-serial library <https://pypi.org/project/pyserial/>`_ is install via:
