@@ -7,5 +7,5 @@
 API Documentation
 ==================
 
-.. automodule:: gps_serial
+.. automodule:: gps-serial
     :members:
