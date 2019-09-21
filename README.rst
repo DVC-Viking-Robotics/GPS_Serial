@@ -54,4 +54,4 @@ You can then test which port in the outputted list is the GPS module by entering
 
     python3 -m serial.tools.miniterm /dev/ttyS0
 
-where you replace the ``/dev/ttyS0`` part with the address you're testing. To exit the miniterm application use ``ctrl+[``
+where you replace the ``/dev/ttyS0`` part with the address you're testing. To exit the miniterm application use ``ctrl + ]``
