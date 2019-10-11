@@ -18,7 +18,9 @@ while True:
             print('Course Magnetic North:', GPS.course_mag, 'degrees')
             print('speed in knots:', GPS.speed_knots, 'speed in kmph:', GPS.speed_kmph)
             print('Altitude:', GPS.altitude, 'meters')
-            print('UTC: {}/{}/{} {}:{}:{}'.format(GPS.utc[1], GPS.utc[2], GPS.utc[0], GPS.utc[3], GPS.utc[4], GPS.utc[5]))
+            print('UTC: {}/{}/{} {}:{}:{}'.format(
+                GPS.utc[1], GPS.utc[2], GPS.utc[0],
+                GPS.utc[3], GPS.utc[4], GPS.utc[5]))
             print('lat:', GPS.lat, 'lng:', GPS.lng)
             print('position dilution of precision:', GPS.pdop, 'meters')
             print('horizontal dilution of precision:', GPS.hdop, 'meters')
