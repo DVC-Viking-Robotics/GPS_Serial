@@ -31,10 +31,12 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/DVC-Viking-Robotics/GPS_Serial.git"
 import time
 import threading
-import serial
+from serial import Serial
 
-# default location hard-coded to DVC Engineering buildings' courtyard
 DEFAULT_LOC = {'lat': 37.96713657090229, 'lng': -122.0712176165581}
+"""The default/fallback location to use when waiting for a fix upon power-up
+of GPS device. This has been hard-coded to DVC Engineering buildings'
+courtyard."""
 
 def _convert2deg(nmea):
     """VERY IMPORTANT needed to go from format 'ddmm.mmmm' into decimal degrees"""
@@ -48,16 +50,16 @@ class GPSserial:
     :param int address: The serial port address that the GPS module is connected to. For example, on the raspberry pi's GPIO pins, this is ``/dev/ttyS0``; on windows, this is something like ``com#`` where # is designated by windows.
     :param int timeout: Specific number of seconds till the threading :class:`~serial.Serial`'s ``readline()`` operation expires. Defaults to 1 second.
     """
-    def __init__(self, address, timeout=1.0):
-        self._dummy = False
-        try:
-            self._ser = serial.Serial(address, timeout=timeout)
-            self._line = self._ser.readline()  # discard any garbage artifacts
-            self._gps_thread = None
-            print('Successfully opened port', address, 'to GPS module')
-        except serial.SerialException:
-            self._dummy = True
-            print('unable to open serial GPS module @ port', address)
+    def __init__(self, address, timeout=1.0, baud=-1):
+        if baud < 0:
+            self._ser = Serial(address, timeout=timeout)
+        else:
+            self._ser = Serial(address, baud, timeout=timeout)
+        # print('Successfully opened port {} @ {} to Arduino device'.format(address, baud))
+        self._line = self._ser.readline()  # discard any garbage artifacts
+        self._ser.close()
+        self._gps_thread = None
+        # print('Successfully opened port', address, 'to GPS module')
         self._lat = DEFAULT_LOC['lat']
         self._lng = DEFAULT_LOC['lng']
         self._utc = None
@@ -200,17 +202,18 @@ class GPSserial:
         return found
 
     def _threaded_read(self, raw):
-        found = False
-        while not found:
-            self._line = self._ser.readline()
-            try:
-                self._line = str(self._line, 'ascii').strip()
-            except UnicodeError:
-                continue # there was undecernable garbage data that couldn't get encoded to ASCII
-            if raw:
-                print(self._line)
-            # found = true if gps coordinates are captured
-            found = self._parse_line(self._line)
+        with self._ser as ser:
+            found = False
+            while ser.in_waiting or not found:
+                self._line = ser.read_until()
+                try:
+                    self._line = str(self._line, 'ascii').strip()
+                except UnicodeError:
+                    continue # there was undecernable garbage data that couldn't get encoded to ASCII
+                if raw:
+                    print(self._line)
+                # found = true if gps coordinates are captured
+                found = self._parse_line(self._line)
 
     def get_data(self, raw=False):
         """
@@ -218,11 +221,14 @@ class GPSserial:
 
         :param bool raw: `True` prints the raw data being parsed from the GPS module. `False` doesn't print the raw data. Defaults to `False`.
 
-        :returns: the last latitude and longitude coordinates obtained from either object instantiation (zero values) or previously completed parsing of GPS data.
+        :returns: the last latitude and longitude coordinates obtained from either object instantiation (`DEFAULT_LOC` values) or previously completed parsing of GPS data.
         """
-        if not self._dummy:
-            if self._gps_thread is not None:
-                self._gps_thread.join()
+        if self._gps_thread is not None and not self._gps_thread.is_alive():
+            self._gps_thread.join()
+            self._gps_thread = threading.Thread(
+                target=self._threaded_read, args=[raw])
+            self._gps_thread.start()
+        elif self._gps_thread is None:
             self._gps_thread = threading.Thread(
                 target=self._threaded_read, args=[raw])
             self._gps_thread.start()
