@@ -48,15 +48,14 @@ def _convert2deg(nmea):
 class GPSserial:
     """
     :param int address: The serial port address that the GPS module is connected to. For example, on the raspberry pi's GPIO pins, this is ``/dev/ttyS0``; on windows, this is something like ``com#`` where # is designated by windows.
-    :param int timeout: Specific number of seconds till the threading :class:`~serial.Serial`'s ``readline()`` operation expires. Defaults to 1 second.
+    :param int timeout: Specific number of seconds till the threading :class:`~serial.Serial`'s `~serial.Serial.read_until()` operation expires. Defaults to 1 second.
+    :param int baud: The specific baudrate to be used for the serial connection. If left
+
     """
-    def __init__(self, address, timeout=1.0, baud=-1):
-        if baud < 0:
-            self._ser = Serial(address, timeout=timeout)
-        else:
-            self._ser = Serial(address, baud, timeout=timeout)
+    def __init__(self, address, timeout=1.0, baud=9600):
+        self._ser = Serial(address=address, baud=baud, timeout=timeout)
         # print('Successfully opened port {} @ {} to Arduino device'.format(address, baud))
-        self._line = self._ser.readline()  # discard any garbage artifacts
+        self._line = self._ser.read_until()  # discard any garbage artifacts
         self._ser.close()
         self._gps_thread = None
         # print('Successfully opened port', address, 'to GPS module')
